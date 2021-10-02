@@ -1,0 +1,20 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-title>game-wizard</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<ion-slides mode="md" pager="md" scrollbar="md">
+		<ion-slide>
+			<div>
+				<h1>Elige el número de rondas</h1>
+
+				<ion-button *ngFor="let item of availableNumberOfRounds" (click)="dismiss(item)" expand="block"
+					fill="clear" shape="round">
+					{{ item }}
+				</ion-button>
+			</div>
+		</ion-slide>
+	</ion-slides>
+</ion-content>

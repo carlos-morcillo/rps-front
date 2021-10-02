@@ -20,13 +20,7 @@ export class HomePage {
 
 	async newGame() {
 		const modal = await this._modalController.create({
-			component: GameWizardPage,
-			cssClass: 'my-custom-class',
-			componentProps: {
-				'firstName': 'Douglas',
-				'lastName': 'Adams',
-				'middleInitial': 'N'
-			}
+			component: GameWizardPage
 		});
 		await modal.present();
 
