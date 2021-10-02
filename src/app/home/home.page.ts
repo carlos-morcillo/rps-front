@@ -1,22 +1,38 @@
 import { Component } from '@angular/core';
-import { DataService, Message } from '../services/data.service';
+import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
+import { GameWizardPage } from '../game-wizard/game-wizard.page';
+import { Game } from '../interfaces/Game';
+import { GamesService } from '../services/games.service';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+	selector: 'app-home',
+	templateUrl: 'home.page.html',
+	styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  constructor(private data: DataService) {}
 
-  refresh(ev) {
-    setTimeout(() => {
-      ev.detail.complete();
-    }, 3000);
-  }
+	constructor(
+		private _router: Router,
+		private _modalController: ModalController,
+		private _gamesSvc: GamesService
+	) { }
 
-  getMessages(): Message[] {
-    return this.data.getMessages();
-  }
+	async newGame() {
+		const modal = await this._modalController.create({
+			component: GameWizardPage,
+			cssClass: 'my-custom-class',
+			componentProps: {
+				'firstName': 'Douglas',
+				'lastName': 'Adams',
+				'middleInitial': 'N'
+			}
+		});
+		await modal.present();
 
+		const { data } = await modal.onWillDismiss();
+		const game = await this._gamesSvc.create('TRADITIONAL', data).toPromise();
+		this._router.navigate(['games', game.id]);
+
+	}
 }

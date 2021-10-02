@@ -6,21 +6,21 @@ import { MessageComponentModule } from '../message/message.module';
 import { HomePage } from './home.page';
 
 describe('HomePage', () => {
-  let component: HomePage;
-  let fixture: ComponentFixture<HomePage>;
+	let component: HomePage;
+	let fixture: ComponentFixture<HomePage>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ HomePage ],
-      imports: [IonicModule.forRoot(), MessageComponentModule, RouterModule.forRoot([])]
-    }).compileComponents();
+	beforeEach(waitForAsync(() => {
+		TestBed.configureTestingModule({
+			declarations: [HomePage],
+			imports: [IonicModule.forRoot(), MessageComponentModule, RouterModule.forRoot([])]
+		}).compileComponents();
 
-    fixture = TestBed.createComponent(HomePage);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  }));
+		fixture = TestBed.createComponent(HomePage);
+		component = fixture.componentInstance;
+		fixture.detectChanges();
+	}));
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+	it('should create', () => {
+		expect(component).toBeTruthy();
+	});
 });

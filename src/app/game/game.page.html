@@ -1,0 +1,16 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-buttons slot="start">
+			<ion-back-button defaultHref="/"></ion-back-button>
+		</ion-buttons>
+		<ion-title>Juego</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<pre>{{id | json}}</pre>
+	<pre>{{game$ | async | json}}</pre>
+	<ion-button *ngFor="let action of actions" (click)="addRound(action)">
+		<i [ngClass]="action.image"></i>
+	</ion-button>
+</ion-content>
