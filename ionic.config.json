@@ -1,0 +1,7 @@
+{
+  "name": "rps-front",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
