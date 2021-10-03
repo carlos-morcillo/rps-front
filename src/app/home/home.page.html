@@ -4,16 +4,18 @@
 			<ion-col size-md="4" offset-md="4">
 				<div class="d-flex flex-column h-100 justify-content-around">
 					<div class="ion-text-center">
-						<h1 class="ion-magin">ROCK, PAPER, SCISSORS!</h1>
+						<h1 class="ion-magin">
+							{{ 'SELF.TITLE' | translate }}
+						</h1>
 						<img class="ion-margin" src="assets/images/home_bg.png" style="width: 512px; max-width: 100%;">
 					</div>
 					<div>
 						<ion-button (click)="newGame()" expand="block" color="secondary">
-							PLAY
+							{{ 'BUTTONS.PLAY' | translate }}
 						</ion-button>
 						<ion-button [routerLink]="['/games']" routerLinkActive="router-link-active" expand="block"
 							color="light" fill="outline">
-							HISTORY
+							{{ 'BUTTONS.HISTORY' | translate }}
 						</ion-button>
 					</div>
 				</div>

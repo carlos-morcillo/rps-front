@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 import { Subject, Subscription, zip } from 'rxjs';
 import { delay, map, switchMap, tap } from 'rxjs/operators';
 import { Action } from '../interfaces/Action';
@@ -41,7 +42,7 @@ export class GamePage implements OnInit {
 		this.machineActionSbj.pipe(
 			delay(Math.random() * this.timeToPlay),
 			map(_ => this.randomAction()),
-			tap(_ => this.showToast('MACHINE_HAS_CHOOSEN')),
+			tap(_ => this.showToast(this._translateSvc.instant('GAMES.MESSAGES.MACHINE_HAS_CHOOSEN'), 'top')),
 		)
 	).pipe(
 
@@ -82,6 +83,7 @@ export class GamePage implements OnInit {
 		private _router: Router,
 		private _activatedRoute: ActivatedRoute,
 		private _toastCtrl: ToastController,
+		private _translateSvc: TranslateService,
 		private _gamesSvc: GamesService,
 	) { }
 
@@ -139,10 +141,11 @@ export class GamePage implements OnInit {
 		this.showGameResult = false;
 	}
 
-	async showToast(message: string) {
+	async showToast(message: string, position: 'top' | 'bottom' | 'middle' = 'bottom') {
 		const toast = await this._toastCtrl.create({
 			message,
-			duration: 2000
+			duration: 2000,
+			position
 		});
 		toast.present();
 	}

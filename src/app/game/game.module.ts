@@ -6,6 +6,7 @@ import { GamePageRoutingModule } from './game-routing.module';
 import { GamePage } from './game.page';
 import { MomentModule } from 'ngx-moment';
 import { SharedModule } from '../shared/shared.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
 	imports: [
@@ -13,6 +14,7 @@ import { SharedModule } from '../shared/shared.module';
 		FormsModule,
 		IonicModule,
 		GamePageRoutingModule,
+		TranslateModule.forChild(),
 		MomentModule,
 		SharedModule
 	],
