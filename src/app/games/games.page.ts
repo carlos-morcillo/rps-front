@@ -34,7 +34,7 @@ export class GamesPage {
 	 */
 	async delete(game?: Game) {
 		if (confirm(game ? 'DELETE_GAME?' : 'CLEAR_HISTORY?')) {
-			await this._gamesSvc.delete(game.id ?? null);
+			await this._gamesSvc.delete(game?.id ?? null);
 			this.refresh$.next();
 		}
 	}
