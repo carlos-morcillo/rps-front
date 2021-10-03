@@ -14,26 +14,34 @@
 	<ng-container *ngIf="game?.resultCode; else inProgressTpt">
 		<ion-toolbar>
 			<ion-title class="ion-text-center">
-				<ng-container [ngSwitch]="game.resultCode">
-					<ng-container *ngSwitchCase="'VICTORY'">
-						YOU_WON!
-					</ng-container>
-					<ng-container *ngSwitchCase="false">
-						YOU_LOST!
-					</ng-container>
-					<ng-container *ngSwitchDefault>
-						TIE!
-					</ng-container>
-				</ng-container>
+				YOU_{{ game.resultCode }}_THE_GAME!
 			</ion-title>
 		</ion-toolbar>
-		<ion-list>
-			<ion-item *ngFor="let round of game.rounds" [color]="'success'">
-				<i class="far fa-2x" [ngClass]="'far fa-hand-' + round.userActionCode | lowercase" slot="start"></i>
-				<ion-label>{{ round.resultCode | json }}</ion-label>
-				<i class="far fa-2x" [ngClass]="'far fa-hand-' + round.machineActionCode | lowercase" slot="end"></i>
-			</ion-item>
-		</ion-list>
+		<ion-grid>
+			<ion-row>
+				<ion-col size-md="4" offset-md="4">
+					<ion-card *ngFor="let round of game.rounds; let i=index;">
+						<ion-card-header>
+							<ion-card-subtitle>ROUND #{{ i + 1 }}</ion-card-subtitle>
+							<ion-card-title>{{ round.resultCode }}</ion-card-title>
+						</ion-card-header>
+						<ion-card-content>
+							<div class="d-flex justify-content-around align-items-center">
+								<i class="far fa-2x" [ngClass]="'far fa-hand-' + round.userActionCode | lowercase"
+									slot="start"></i>
+								<ion-chip color="tertiary">
+									<ion-label>VS</ion-label>
+								</ion-chip>
+								<i class="far fa-2x" [ngClass]="'far fa-hand-' + round.machineActionCode | lowercase"
+									slot="end"></i>
+							</div>
+						</ion-card-content>
+					</ion-card>
+				</ion-col>
+			</ion-row>
+		</ion-grid>
+
+
 	</ng-container>
 	<ng-template #inProgressTpt>
 		<div id="gameContainer" class="d-flex flex-column justify-content-around">

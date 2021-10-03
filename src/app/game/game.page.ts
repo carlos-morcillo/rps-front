@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { combineLatest, Subject, timer } from 'rxjs';
+import { ToastController } from '@ionic/angular';
+import { Subject, Subscription, zip } from 'rxjs';
 import { delay, map, switchMap, tap } from 'rxjs/operators';
 import { Action } from '../interfaces/Action';
 import { Game } from '../interfaces/Game';
@@ -12,7 +13,7 @@ import { GamesService } from '../services/games.service';
 	templateUrl: './game.page.html',
 	styleUrls: ['./game.page.scss'],
 })
-export class GamePage implements OnInit, OnDestroy {
+export class GamePage implements OnInit {
 
 	timeToPlay: number = 5000;
 	alertsDelay: number = 3000;
@@ -24,42 +25,60 @@ export class GamePage implements OnInit, OnDestroy {
 	actions: Action[] = this._gamesSvc.settings.actions.filter(o => this.mode.allowedActionCodes.indexOf(o.code) > -1);
 	roundResult: string;
 	showGameResult: boolean = false;
+	showActionsChoosed: boolean = false;
 
 	userActionSbj = new Subject<Action>();
 	machineActionSbj = new Subject<Action>();
 
-	result$ = combineLatest(
-		// TODO: Cuenta atrás
-		this.userActionSbj.pipe(
-			tap(o => console.log('El jugador ha jugado con ' + o.name))
-		),
-		timer(Math.random() * this.timeToPlay).pipe(
-			tap(_ => console.log('La máquina va ha jugar')),
+	/**
+	 * Observable que maneja reactivamente la lógica de la ronda
+	 *
+	 * @memberof GamePage
+	 */
+	round$ = zip(
+		this.userActionSbj,
+		this.machineActionSbj.pipe(
+			delay(Math.random() * this.timeToPlay),
 			map(_ => this.randomAction()),
-			tap(o => console.log('La máquina ha jugado con ' + o.name)),
-		), (userAction: Action, machineAction: Action) => ({ userAction, machineAction })).pipe(
-			map(o => ({ resultCode: this.getRoundResult(o.userAction, o.machineAction), userActionCode: o.userAction.code, machineActionCode: o.machineAction.code })),
-			tap(o => {
-				this.roundResult = o.resultCode;
-			}),
-			switchMap(o => {
-				return this._gamesSvc.saveRound(this.id, o);
-			}),
-			delay(this.alertsDelay),
-			tap(o => {
-				this.roundResult = null;
-			}),
-			tap(o => {
-				this.game = o;
-				if (this.game.resultCode) {
-					this.showGameResult = true;
-				}
-			})
-		);
+			tap(_ => this.showToast('MACHINE_HAS_CHOOSEN')),
+		)
+	).pipe(
+
+		// Obtenemos el resultado de la ronda y enviamos al servidor
+		map(o => ({ resultCode: this.getRoundResult(o[0], o[1]), userActionCode: o[0].code, machineActionCode: o[1].code })),
+		tap(o => {
+			console.log(o.userActionCode, 'VS', o.machineActionCode);
+			this.roundResult = o.resultCode;
+		}),
+		switchMap(o => {
+			return this._gamesSvc.saveRound(this.id, o);
+		}),
+
+		// Esperamos a cerrar la alerta y la eliminamos
+		delay(this.alertsDelay),
+		tap(o => {
+			this.roundResult = null;
+		}),
+
+		// si se ha ganado el juego se anuncia, si no, se oculta la alerta y se inicia una nueva ronda
+		tap(o => {
+			this.game = o;
+			if (this.game.resultCode) {
+				this.showGameResult = true;
+				this.roundSct.unsubscribe();
+			} else {
+				this.showGameResult = false;
+				this.machineActionSbj.next();
+			}
+		})
+	);
+
+	roundSct: Subscription;
 
 	constructor(
 		private route: ActivatedRoute,
-		private _gamesSvc: GamesService
+		private _gamesSvc: GamesService,
+		private _toastCtrl: ToastController
 	) { }
 
 	async ngOnInit() {
@@ -67,28 +86,20 @@ export class GamePage implements OnInit, OnDestroy {
 			this.id = params['id'] ?? null;
 			try {
 				this.game = await this._gamesSvc.find(this.id).toPromise();
+
+				if (!this.game.resultCode) {
+					this.roundSct = this.round$.subscribe();
+					this.machineActionSbj.next();
+				}
 			} catch (error) {
 				// TODO: controlar errores
 				debugger;
 			}
 		});
-
-		this.result$.subscribe();
-	}
-
-	ngOnDestroy() {
-		// TODO: Desuscribirse
 	}
 
 	play(action: Action) {
 		this.userActionSbj.next(action);
-	}
-
-	addRound(action: Action) {
-		// TODO: Mover acción al centro y quitar el resto
-		// TODO: Crear ronda con observable
-		// Anunciar resultados
-		// Si ha terminado, anunciarlo
 	}
 
 	/**
@@ -99,10 +110,7 @@ export class GamePage implements OnInit, OnDestroy {
 	 */
 	randomAction() {
 		const index = Math.floor(Math.random() * this.actions.length);
-		console.log(index);
-
 		const action = this.actions[index];
-		console.log(action);
 		return action;
 	}
 
@@ -116,19 +124,24 @@ export class GamePage implements OnInit, OnDestroy {
 	 */
 	getRoundResult(userAction: Action, machineAction: Action): any {
 		if (userAction.code === machineAction.code) {
-			console.log('TIE');
 			return 'TIE';
 		} else if (userAction.strongAgainst.indexOf(machineAction.code) > -1) {
-			console.log('VICTORY');
 			return 'VICTORY';
 		} else {
-			console.log('DEFEAT');
 			return 'DEFEAT';
 		}
 	}
 
 	showSummary() {
 		this.showGameResult = false;
+	}
+
+	async showToast(message: string) {
+		const toast = await this._toastCtrl.create({
+			message,
+			duration: 2000
+		});
+		toast.present();
 	}
 
 }
