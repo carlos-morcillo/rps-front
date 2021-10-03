@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { IonSlides, ModalController } from '@ionic/angular';
 import { Mode } from '../interfaces/Settings';
 import { GamesService } from '../services/games.service';
 
@@ -9,15 +9,17 @@ import { GamesService } from '../services/games.service';
 	templateUrl: './game-wizard.page.html',
 	styleUrls: ['./game-wizard.page.scss'],
 })
-export class GameWizardPage implements OnInit {
+export class GameWizardPage implements OnInit, AfterViewInit {
 
 	availableNumberOfRounds: number[] = [1, 3, 5, 7, 9];
-	mode: Mode = this._gamesSvc.settings.modes[0];
+	modes: Mode[] = this._gamesSvc.settings.modes;
 
 	form: FormGroup = this._fb.group({
 		modeCode: [null, Validators.required],
 		numberOrRounds: [null, Validators.required]
 	});
+
+	@ViewChild(IonSlides) slides: IonSlides;
 
 	constructor(
 		private _fb: FormBuilder,
@@ -26,7 +28,20 @@ export class GameWizardPage implements OnInit {
 	) { }
 
 	ngOnInit() {
+		// Si solo hay un modo, lo establecemos
+		if (this.modes.length === 1) {
+			this.form.get('modeCode').patchValue(this.modes[0].code);
+		}
+	}
 
+	ngAfterViewInit() {
+		this.slides.lockSwipeToNext(true);
+	}
+
+	next() {
+		this.slides.lockSwipeToNext(false);
+		this.slides.slideNext();
+		this.slides.lockSwipeToNext(true);
 	}
 
 	dismiss(numberOfRounds: number) {

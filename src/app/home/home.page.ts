@@ -24,8 +24,10 @@ export class HomePage {
 		await modal.present();
 
 		const { data } = await modal.onWillDismiss();
-		const game = await this._gamesSvc.create('TRADITIONAL', data).toPromise();
-		this._router.navigate(['games', game.id]);
+		if (data) {
+			const game = await this._gamesSvc.create('TRADITIONAL', data).toPromise();
+			this._router.navigate(['games', game.id]);
+		}
 
 	}
 }

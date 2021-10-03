@@ -1,20 +1,30 @@
 <ion-header>
 	<ion-toolbar>
-		<ion-title>game-wizard</ion-title>
+		<ion-title>GAME_WIZARD</ion-title>
 	</ion-toolbar>
 </ion-header>
 
 <ion-content>
-	<ion-slides mode="md" pager="md" scrollbar="md">
+	<ion-slides #slides mode="md" pager="md" scrollbar="md" style="height: 100%;">
+		<ion-slide *ngIf="modes.length > 1">
+			<div>
+				<h2>CHOOSE_GAME_MODE</h2>
+				<ion-button *ngFor="let item of modes" (click)="form.get('modeCode').patchValue(item.code); next()"
+					shape="round" [color]="form.get('modeCode').value === item.code ? 'secondary' : 'light'">
+					{{ item.name }}
+				</ion-button>
+			</div>
+		</ion-slide>
 		<ion-slide>
 			<div>
-				<h1>Elige el número de rondas</h1>
-
-				<ion-button *ngFor="let item of availableNumberOfRounds" (click)="dismiss(item)" expand="block"
-					fill="clear" shape="round">
+				<h2>CHOOSE_NUMBER_OF_ROUNDS</h2>
+				<ion-button class="ion-margin" *ngFor="let item of availableNumberOfRounds" (click)="dismiss(item)"
+					shape="round" [color]="form.get('numberOrRounds').value === item ? 'secondary' : 'light'">
 					{{ item }}
 				</ion-button>
 			</div>
 		</ion-slide>
+
 	</ion-slides>
+	<pre>{{form.value | json}}</pre>
 </ion-content>
