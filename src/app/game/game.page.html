@@ -77,3 +77,23 @@
 		</div>
 	</ng-template>
 </ion-content>
+<amazing-alert *ngIf="roundResult">
+	<h3 class="text-shadow">{{ 'YOU_' + roundResult + '_THE_ROUND!' }}</h3>
+	<div class="d-flex justify-content-end ion-margin-top">
+		<ion-button color="light" class="ion-margin-end">
+			CONTINUE
+		</ion-button>
+	</div>
+</amazing-alert>
+
+<amazing-alert *ngIf="showGameResult">
+	<h2 class="text-shadow">{{ 'YOU_' + game.resultCode + '_THE_GAME!' }}</h2>
+	<div class="d-flex justify-content-end ion-margin-top">
+		<ion-button (click)="showSummary()" color="light" class="ion-margin-end">
+			SHOW_SUMMARY
+		</ion-button>
+		<ion-button fill="outline" color="light" [routerLink]="['/']">
+			BACK_TO_HOME
+		</ion-button>
+	</div>
+</amazing-alert>

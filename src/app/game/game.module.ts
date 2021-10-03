@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { GamePageRoutingModule } from './game-routing.module';
 import { GamePage } from './game.page';
 import { MomentModule } from 'ngx-moment';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
 	imports: [
@@ -12,7 +13,8 @@ import { MomentModule } from 'ngx-moment';
 		FormsModule,
 		IonicModule,
 		GamePageRoutingModule,
-		MomentModule
+		MomentModule,
+		SharedModule
 	],
 	declarations: [
 		GamePage

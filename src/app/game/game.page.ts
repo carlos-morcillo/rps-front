@@ -1,12 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { combineLatest, Subject, timer } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { delay, map, switchMap, tap } from 'rxjs/operators';
 import { Action } from '../interfaces/Action';
 import { Game } from '../interfaces/Game';
 import { Mode, State } from '../interfaces/Settings';
 import { GamesService } from '../services/games.service';
-import { ToastController } from '@ionic/angular';
 
 @Component({
 	selector: 'app-game',
@@ -16,12 +15,15 @@ import { ToastController } from '@ionic/angular';
 export class GamePage implements OnInit, OnDestroy {
 
 	timeToPlay: number = 5000;
+	alertsDelay: number = 3000;
 
 	id: string;
 	game: Game;
 	states: State[] = this._gamesSvc.settings.states;
 	mode: Mode = this._gamesSvc.settings.modes[0];
 	actions: Action[] = this._gamesSvc.settings.actions.filter(o => this.mode.allowedActionCodes.indexOf(o.code) > -1);
+	roundResult: string;
+	showGameResult: boolean = false;
 
 	userActionSbj = new Subject<Action>();
 	machineActionSbj = new Subject<Action>();
@@ -37,19 +39,26 @@ export class GamePage implements OnInit, OnDestroy {
 			tap(o => console.log('La máquina ha jugado con ' + o.name)),
 		), (userAction: Action, machineAction: Action) => ({ userAction, machineAction })).pipe(
 			map(o => ({ resultCode: this.getRoundResult(o.userAction, o.machineAction), userActionCode: o.userAction.code, machineActionCode: o.machineAction.code })),
+			tap(o => {
+				this.roundResult = o.resultCode;
+			}),
 			switchMap(o => {
 				return this._gamesSvc.saveRound(this.id, o);
 			}),
+			delay(this.alertsDelay),
+			tap(o => {
+				this.roundResult = null;
+			}),
 			tap(o => {
 				this.game = o;
-				alert(this.game.resultCode);
-			}),
-			tap(o => alert('Va a comenzar la siguiente partida'))
+				if (this.game.resultCode) {
+					this.showGameResult = true;
+				}
+			})
 		);
 
 	constructor(
 		private route: ActivatedRoute,
-		private _toast: ToastController,
 		private _gamesSvc: GamesService
 	) { }
 
@@ -65,14 +74,6 @@ export class GamePage implements OnInit, OnDestroy {
 		});
 
 		this.result$.subscribe();
-
-		const toast = await this._toast.create({
-			animated: true,
-			cssClass: 'round-win',
-			message: 'Has ganado la ronda!'
-		});
-
-		toast.present();
 	}
 
 	ngOnDestroy() {
@@ -124,6 +125,10 @@ export class GamePage implements OnInit, OnDestroy {
 			console.log('DEFEAT');
 			return 'DEFEAT';
 		}
+	}
+
+	showSummary() {
+		this.showGameResult = false;
 	}
 
 }
