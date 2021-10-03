@@ -14,6 +14,8 @@ import { MomentModule } from 'ngx-moment';
 		GamePageRoutingModule,
 		MomentModule
 	],
-	declarations: [GamePage]
+	declarations: [
+		GamePage
+	]
 })
 export class GamePageModule { }

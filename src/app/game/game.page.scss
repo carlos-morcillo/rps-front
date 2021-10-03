@@ -1,0 +1,28 @@
+#gameContainer {
+	height: calc(100vh - var(--min-height));
+}
+.action-button {
+	font-size: 3em;
+	border-radius: 50%;
+	width: 80px;
+	height: 80px;
+	margin: 0.5rem;
+	background: white;
+}
+
+.action-button.user_selection {
+	font-size: 6em;
+	border-radius: 50%;
+	width: 128px;
+	height: 128px;
+}
+
+.round-win {
+	--color: #ffffff;
+	--border-color: #fabada;
+	--border-radius: 3px;
+	--border-style: solid;
+	--border-width: 3px;
+	--background: #1833ff;
+	--button-color: #ffffff;
+}

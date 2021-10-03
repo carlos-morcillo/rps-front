@@ -1,14 +1,16 @@
-<ion-header>
-	<ion-toolbar>
+<ion-header [translucent]="true">
+	<ion-toolbar color="primary">
 		<ion-buttons slot="start">
 			<ion-back-button defaultHref="/"></ion-back-button>
 		</ion-buttons>
 		<ion-title>Juego</ion-title>
-		<span slot="end">ROUND {{ game?.roundNumber }} OF {{ game?.numberOrRounds }}</span>
+		<ion-badge color="secondary" slot="end" class="ion-margin-end">ROUND {{ game?.roundNumber }} OF
+			{{ game?.numberOrRounds }}
+		</ion-badge>
 	</ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content [fullscreen]="true" color="primary">
 	<ng-container *ngIf="game?.resultCode; else inProgressTpt">
 		<ion-toolbar>
 			<ion-title class="ion-text-center">
@@ -34,17 +36,44 @@
 		</ion-list>
 	</ng-container>
 	<ng-template #inProgressTpt>
-		<pre>{{game | json}}</pre>
+		<div id="gameContainer" class="d-flex flex-column justify-content-around">
+			<div>
+				<div class="d-flex justify-content-start ion-padding">
+					<ion-chip>
+						<i class="fas fa-robot" color="secondary"></i>
+						<ion-label>MACHINE</ion-label>
+					</ion-chip>
+				</div>
+				<div class="flex-grown-1 ion-text-center">
+					<button class="action-button user_selection">
+						<i class="far fa-question"></i>
+					</button>
+				</div>
+			</div>
+			<div>
+				<div class="d-flex justify-content-end ion-padding">
+					<ion-chip>
+						<i class="fas fa-user" color="secondary"></i>
+						<ion-label>USER</ion-label>
+					</ion-chip>
+				</div>
+				<div class="d-flex flex-column h-100 align-items-center">
+
+					<div class="flex-grown-1">
+						<button class="action-button user_selection">
+							<i class="far fa-question"></i>
+							<ion-ripple-effect></ion-ripple-effect>
+
+						</button>
+					</div>
+					<div class="ion-margin">
+						<button class="action-button" *ngFor="let action of actions" (click)="play(action)">
+							<i [ngClass]="action.image"></i>
+						</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
 	</ng-template>
-
-
 </ion-content>
-<ion-footer *ngIf="!game?.resultCode">
-	<ion-toolbar>
-		<ion-buttons>
-			<ion-button *ngFor="let action of actions" (click)="play(action)">
-				<i [ngClass]="action.image"></i>
-			</ion-button>
-		</ion-buttons>
-	</ion-toolbar>
-</ion-footer>

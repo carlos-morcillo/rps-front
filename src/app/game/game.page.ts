@@ -6,6 +6,7 @@ import { Action } from '../interfaces/Action';
 import { Game } from '../interfaces/Game';
 import { Mode, State } from '../interfaces/Settings';
 import { GamesService } from '../services/games.service';
+import { ToastController } from '@ionic/angular';
 
 @Component({
 	selector: 'app-game',
@@ -39,16 +40,20 @@ export class GamePage implements OnInit, OnDestroy {
 			switchMap(o => {
 				return this._gamesSvc.saveRound(this.id, o);
 			}),
-			map(o => this.game = o),
-			tap(o => console.log(o))
+			tap(o => {
+				this.game = o;
+				alert(this.game.resultCode);
+			}),
+			tap(o => alert('Va a comenzar la siguiente partida'))
 		);
 
 	constructor(
 		private route: ActivatedRoute,
+		private _toast: ToastController,
 		private _gamesSvc: GamesService
 	) { }
 
-	ngOnInit() {
+	async ngOnInit() {
 		this.route.params.subscribe(async (params) => {
 			this.id = params['id'] ?? null;
 			try {
@@ -60,6 +65,14 @@ export class GamePage implements OnInit, OnDestroy {
 		});
 
 		this.result$.subscribe();
+
+		const toast = await this._toast.create({
+			animated: true,
+			cssClass: 'round-win',
+			message: 'Has ganado la ronda!'
+		});
+
+		toast.present();
 	}
 
 	ngOnDestroy() {

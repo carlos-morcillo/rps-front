@@ -1,38 +1,24 @@
 <ion-content [fullscreen]="true" color="primary">
-	<ion-grid>
-		<ion-row>
+	<ion-grid class="h-100">
+		<ion-row class="h-100">
 			<ion-col size-md="4" offset-md="4">
-				<div class="ion-text-center">
-					<h1 class="ion-magin">ROCK, PAPER, SCISSORS!</h1>
-					<img class="ion-margin" src="assets/images/home_bg.png" style="width: 512px; max-width: 100%;">
+				<div class="d-flex flex-column h-100 justify-content-around">
+					<div class="ion-text-center">
+						<h1 class="ion-magin">ROCK, PAPER, SCISSORS!</h1>
+						<img class="ion-margin" src="assets/images/home_bg.png" style="width: 512px; max-width: 100%;">
+					</div>
+					<div>
+						<ion-button (click)="newGame()" expand="block" color="secondary">
+							PLAY
+						</ion-button>
+						<ion-button [routerLink]="['/games']" routerLinkActive="router-link-active" expand="block"
+							color="light" fill="outline">
+							HISTORY
+						</ion-button>
+					</div>
 				</div>
-				<div>
-					<ion-button (click)="newGame()" expand="block" color="secondary">
-						PLAY
-					</ion-button>
-					<ion-button [routerLink]="['/games']" routerLinkActive="router-link-active" expand="block"
-						color="light" fill="outline">
-						HISTORY
-					</ion-button>
-				</div>
+
 			</ion-col>
 		</ion-row>
 	</ion-grid>
-
-
-	<!-- <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
-		<ion-refresher-content></ion-refresher-content>
-	</ion-refresher>
-
-	<ion-header collapse="condense">
-		<ion-toolbar>
-			<ion-title size="large">
-				Inbox
-			</ion-title>
-		</ion-toolbar>
-	</ion-header>
-
-	<ion-list>
-		<app-message *ngFor="let message of getMessages()" [message]="message"></app-message>
-	</ion-list> -->
 </ion-content>
