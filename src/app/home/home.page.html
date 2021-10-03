@@ -1,18 +1,25 @@
-<ion-header [translucent]="true">
-	<!-- <ion-toolbar>
-		<ion-title>
-			Inbox
-		</ion-title>
-	</ion-toolbar> -->
-</ion-header>
+<ion-content [fullscreen]="true" color="primary">
+	<ion-grid>
+		<ion-row>
+			<ion-col size-md="4" offset-md="4">
+				<div class="ion-text-center">
+					<h1 class="ion-magin">ROCK, PAPER, SCISSORS!</h1>
+					<img class="ion-margin" src="assets/images/home_bg.png" style="width: 512px; max-width: 100%;">
+				</div>
+				<div>
+					<ion-button (click)="newGame()" expand="block" color="secondary">
+						PLAY
+					</ion-button>
+					<ion-button [routerLink]="['/games']" routerLinkActive="router-link-active" expand="block"
+						color="light" fill="outline">
+						HISTORY
+					</ion-button>
+				</div>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
 
-<ion-content [fullscreen]="true">
-	<ion-button (click)="newGame()">
-		Jugar
-	</ion-button>
-	<ion-button [routerLink]="['/games']" routerLinkActive="router-link-active">
-		Histórico
-	</ion-button>
+
 	<!-- <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
 		<ion-refresher-content></ion-refresher-content>
 	</ion-refresher>

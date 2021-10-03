@@ -17,7 +17,9 @@ import { GamesService } from './services/games.service';
 	entryComponents: [],
 	imports: [
 		BrowserModule,
-		IonicModule.forRoot(),
+		IonicModule.forRoot({
+			backButtonText: ''
+		}),
 		AppRoutingModule,
 		HttpClientModule
 	],

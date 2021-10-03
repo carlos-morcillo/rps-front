@@ -23,17 +23,30 @@
 	</ion-header>
 
 	<ion-list>
-		<ion-item *ngFor="let game of games$ | async" detail [routerLink]="[game.id]" detail>
-			<i class="far fa-2x" slot="start"></i>
-			<ion-label>
-				<div>
-					<div>GAME {{ game.id }}</div>
-					<ion-text color="secondary">
-						<p>{{ game.createdAt }}</p>
-					</ion-text>
-				</div>
-			</ion-label>
-			<span slot="end">{{ game.resultCode }}</span>
-		</ion-item>
+		<ion-item-sliding *ngFor="let game of games$ | async">
+			<ion-item detail [routerLink]="[game.id]" detail>
+				<i class="far fa-2x" slot="start"></i>
+				<ion-label>
+					<div>
+						<div>GAME {{ game.id }}</div>
+						<ion-text color="secondary">
+							<p>{{ game.createdAt | amTimeAgo }}</p>
+						</ion-text>
+					</div>
+				</ion-label>
+				<span slot="end">{{ game.resultCode }}</span>
+			</ion-item>
+
+			<ion-item-options side="end">
+				<ion-item-option color="danger" expandable (click)="delete(game)">DELETE</ion-item-option>
+			</ion-item-options>
+		</ion-item-sliding>
 	</ion-list>
+
+	<!-- fab placed to the bottom and start and on the bottom edge of the content overlapping footer with a list to the right -->
+	<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+		<ion-fab-button (click)="delete()">
+			<ion-icon name="trash"></ion-icon>
+		</ion-fab-button>
+	</ion-fab>
 </ion-content>

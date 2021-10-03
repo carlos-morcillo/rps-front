@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { GameWizardPage } from '../game-wizard/game-wizard.page';
-import { Game } from '../interfaces/Game';
 import { GamesService } from '../services/games.service';
 
 @Component({

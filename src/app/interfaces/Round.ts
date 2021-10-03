@@ -5,4 +5,5 @@ export interface Round {
 	machineActionCode: string;
 	winnerUUID: string;
 	createdAt: string;
+	resultCode: 'VICTORY' | 'DEFEAT' | 'TIE'
 }
