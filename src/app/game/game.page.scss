@@ -8,6 +8,7 @@
 	height: 80px;
 	margin: 0.5rem;
 	background: white;
+	color: var(--ion-color-secondary);
 }
 
 .action-button.user_selection {
@@ -15,14 +16,4 @@
 	border-radius: 50%;
 	width: 128px;
 	height: 128px;
-}
-
-.round-win {
-	--color: #ffffff;
-	--border-color: #fabada;
-	--border-radius: 3px;
-	--border-style: solid;
-	--border-width: 3px;
-	--background: #1833ff;
-	--button-color: #ffffff;
 }

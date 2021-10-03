@@ -1,10 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { Subject, Subscription, zip } from 'rxjs';
 import { delay, map, switchMap, tap } from 'rxjs/operators';
 import { Action } from '../interfaces/Action';
 import { Game } from '../interfaces/Game';
+import { Round } from '../interfaces/Round';
 import { Mode, State } from '../interfaces/Settings';
 import { GamesService } from '../services/games.service';
 
@@ -23,7 +24,7 @@ export class GamePage implements OnInit {
 	states: State[] = this._gamesSvc.settings.states;
 	mode: Mode = this._gamesSvc.settings.modes[0];
 	actions: Action[] = this._gamesSvc.settings.actions.filter(o => this.mode.allowedActionCodes.indexOf(o.code) > -1);
-	roundResult: string;
+	round: Partial<Round>;
 	showGameResult: boolean = false;
 	showActionsChoosed: boolean = false;
 
@@ -48,7 +49,8 @@ export class GamePage implements OnInit {
 		map(o => ({ resultCode: this.getRoundResult(o[0], o[1]), userActionCode: o[0].code, machineActionCode: o[1].code })),
 		tap(o => {
 			console.log(o.userActionCode, 'VS', o.machineActionCode);
-			this.roundResult = o.resultCode;
+			this.round = o;
+			this.showActionsChoosed = true;
 		}),
 		switchMap(o => {
 			return this._gamesSvc.saveRound(this.id, o);
@@ -57,7 +59,7 @@ export class GamePage implements OnInit {
 		// Esperamos a cerrar la alerta y la eliminamos
 		delay(this.alertsDelay),
 		tap(o => {
-			this.roundResult = null;
+			this.round = null;
 		}),
 
 		// si se ha ganado el juego se anuncia, si no, se oculta la alerta y se inicia una nueva ronda
@@ -69,6 +71,7 @@ export class GamePage implements OnInit {
 			} else {
 				this.showGameResult = false;
 				this.machineActionSbj.next();
+				this.showActionsChoosed = false;
 			}
 		})
 	);
@@ -76,13 +79,14 @@ export class GamePage implements OnInit {
 	roundSct: Subscription;
 
 	constructor(
-		private route: ActivatedRoute,
+		private _router: Router,
+		private _activatedRoute: ActivatedRoute,
+		private _toastCtrl: ToastController,
 		private _gamesSvc: GamesService,
-		private _toastCtrl: ToastController
 	) { }
 
 	async ngOnInit() {
-		this.route.params.subscribe(async (params) => {
+		this._activatedRoute.params.subscribe(async (params) => {
 			this.id = params['id'] ?? null;
 			try {
 				this.game = await this._gamesSvc.find(this.id).toPromise();
@@ -92,8 +96,7 @@ export class GamePage implements OnInit {
 					this.machineActionSbj.next();
 				}
 			} catch (error) {
-				// TODO: controlar errores
-				debugger;
+				this._router.navigate(['/']);
 			}
 		});
 	}

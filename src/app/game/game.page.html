@@ -3,7 +3,7 @@
 		<ion-buttons slot="start">
 			<ion-back-button defaultHref="/"></ion-back-button>
 		</ion-buttons>
-		<ion-title>Juego</ion-title>
+		<!-- <ion-title>GAME #XXXXXX</ion-title> -->
 		<ion-badge color="secondary" slot="end" class="ion-margin-end">ROUND {{ game?.roundNumber }} OF
 			{{ game?.numberOrRounds }}
 		</ion-badge>
@@ -40,28 +40,40 @@
 				</ion-col>
 			</ion-row>
 		</ion-grid>
-
-
 	</ng-container>
 	<ng-template #inProgressTpt>
 		<div id="gameContainer" class="d-flex flex-column justify-content-around">
 			<div>
 				<div class="d-flex justify-content-start ion-padding">
-					<ion-chip>
-						<i class="fas fa-robot" color="secondary"></i>
+					<ion-chip color="secondary">
+						<i class="fas fa-robot ion-margin-end"></i>
 						<ion-label>MACHINE</ion-label>
 					</ion-chip>
 				</div>
 				<div class="flex-grown-1 ion-text-center">
+					<!-- <flip [active]="round">
+						<ng-template flipFront>
+							<button class="action-button user_selection">
+								<i class="far fa-question"></i>
+							</button>
+						</ng-template>
+						<ng-template flipFront>
+							<button class="action-button user_selection">
+								<i class="fab fa-500px"></i>
+							</button>
+						</ng-template>
+
+					</flip> -->
 					<button class="action-button user_selection">
-						<i class="far fa-question"></i>
+						<i class="far"
+							[ngClass]="round ? ('fa-hand-' + round.machineActionCode | lowercase) : 'fa-question'"></i>
 					</button>
 				</div>
 			</div>
 			<div>
 				<div class="d-flex justify-content-end ion-padding">
-					<ion-chip>
-						<i class="fas fa-user" color="secondary"></i>
+					<ion-chip color="secondary">
+						<i class="fas fa-user ion-margin-end"></i>
 						<ion-label>USER</ion-label>
 					</ion-chip>
 				</div>
@@ -69,15 +81,21 @@
 
 					<div class="flex-grown-1">
 						<button class="action-button user_selection">
-							<i class="far fa-question"></i>
-							<ion-ripple-effect></ion-ripple-effect>
-
+							<i class="far"
+								[ngClass]="round ? ('fa-hand-' + round.userActionCode | lowercase) : 'fa-question'"></i>
 						</button>
 					</div>
-					<div class="ion-margin">
-						<button class="action-button" *ngFor="let action of actions" (click)="play(action)">
-							<i [ngClass]="action.image"></i>
-						</button>
+					<div class="d-flex">
+						<div class="ion-margin" *ngFor="let action of actions">
+							<div class="d-flex flex-column ion-text-center">
+								<button class="action-button" (click)="play(action)">
+									<div class="d-flex flex-column">
+										<i [ngClass]="action.image"></i>
+									</div>
+								</button>
+								<span>{{ action.code }}</span>
+							</div>
+						</div>
 					</div>
 				</div>
 
@@ -85,8 +103,8 @@
 		</div>
 	</ng-template>
 </ion-content>
-<amazing-alert *ngIf="roundResult">
-	<h3 class="text-shadow">{{ 'YOU_' + roundResult + '_THE_ROUND!' }}</h3>
+<amazing-alert *ngIf="round">
+	<h3 class="text-shadow">{{ 'YOU_' + round.resultCode + '_THE_ROUND!' }}</h3>
 	<div class="d-flex justify-content-end ion-margin-top">
 		<ion-button color="light" class="ion-margin-end">
 			CONTINUE

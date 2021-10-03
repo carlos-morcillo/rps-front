@@ -1,0 +1,22 @@
+:host {
+	display: inline-block;
+	width: 128px;
+	height: 128px;
+	&.active > .front {
+		transform: perspective(600px) rotateY(-180deg);
+	}
+	&.active > .back {
+		transform: perspective(600px) rotateY(0deg);
+	}
+}
+.front {
+	z-index: 100;
+}
+.front,
+.back {
+	overflow: hidden;
+	backface-visibility: hidden;
+	position: absolute;
+	transition: transform 0.5s linear;
+	background-color: green;
+}
