@@ -16,7 +16,7 @@ export class GameWizardPage implements OnInit, AfterViewInit {
 
 	form: FormGroup = this._fb.group({
 		modeCode: [null, Validators.required],
-		numberOrRounds: [null, Validators.required]
+		numberOfRounds: [null, Validators.required]
 	});
 
 	@ViewChild(IonSlides) slides: IonSlides;

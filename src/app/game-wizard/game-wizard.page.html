@@ -19,7 +19,7 @@
 			<div>
 				<h2>{{ 'GAMES.LABELS.CHOOSE_NUMBER_OF_ROUNDS' | translate }}</h2>
 				<ion-button class="ion-margin" *ngFor="let item of availableNumberOfRounds" (click)="dismiss(item)"
-					shape="round" [color]="form.get('numberOrRounds').value === item ? 'secondary' : 'light'">
+					shape="round" [color]="form.get('numberOfRounds').value === item ? 'secondary' : 'light'">
 					{{ item }}
 				</ion-button>
 			</div>
