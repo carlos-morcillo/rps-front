@@ -1,0 +1,90 @@
+<ion-header [translucent]="true">
+	<ion-toolbar color="primary">
+		<ion-buttons slot="start">
+			<ion-back-button defaultHref="/"></ion-back-button>
+		</ion-buttons>
+		<ion-title>
+			{{ 'GAMES.TITLES.HISTORY' | translate }}
+		</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="primary">
+	<ion-refresher slot="fixed" (ionRefresh)="refresh$.next()">
+		<ion-refresher-content></ion-refresher-content>
+	</ion-refresher>
+
+	<ion-header collapse="condense">
+		<ion-toolbar color="primary">
+			<ion-title size="large">
+				{{ 'GAMES.TITLES.HISTORY' | translate }}
+			</ion-title>
+		</ion-toolbar>
+	</ion-header>
+	<ion-grid class="ion-no-padding" *ngIf="games$ | async as games">
+		<ion-row>
+			<ion-col size-md="4" offset-md="4" class="ion-no-padding">
+				<ng-container *ngIf="games.length; else withoutGamesTpt">
+					<ion-card *ngFor="let game of games$ | async; let i=index;" [routerLink]="[game.id]" role="button">
+						<ion-card-header>
+							<ion-card-subtitle>{{ game.createdAt | amTimeAgo }}</ion-card-subtitle>
+							<!-- <ion-card-title>GAME {{ game.id }}</ion-card-title> -->
+						</ion-card-header>
+						<ion-card-content>
+							<div class="d-flex justify-content-between align-items-center">
+								<div>
+									<ng-container *ngFor="let round of game.rounds">
+										<span [ngSwitch]="round.resultCode" style="margin-right: 4px;">
+											<ion-text color="success" *ngSwitchCase="'VICTORY'">
+												<i class="fa fa-check"></i>
+											</ion-text>
+											<ion-text color="danger" *ngSwitchCase="'DEFEAT'">
+												<i class="fa fa-times"></i>
+											</ion-text>
+											<ion-text color="warning" *ngSwitchCase="'TIE'">
+												<i class="fa fa-equals"></i>
+											</ion-text>
+										</span>
+									</ng-container>
+								</div>
+								<ng-container [ngSwitch]="game.resultCode">
+									<ion-chip color="success" *ngSwitchCase="'VICTORY'">
+										<ion-label> {{'GAMES.STATES.' + game.resultCode | translate }} </ion-label>
+									</ion-chip>
+									<ion-chip color="danger" *ngSwitchCase="'DEFEAT'">
+										<ion-label> {{'GAMES.STATES.' + game.resultCode | translate }} </ion-label>
+									</ion-chip>
+									<ion-chip color="warning" *ngSwitchCase="'TIE'">
+										<ion-label> {{'GAMES.STATES.' + game.resultCode | translate }} </ion-label>
+									</ion-chip>
+
+									<ion-chip color="light" *ngSwitchDefault>
+										<ion-label>{{'GAMES.STATES.IN_PROGRESS' | translate }}</ion-label>
+									</ion-chip>
+								</ng-container>
+
+							</div>
+						</ion-card-content>
+					</ion-card>
+				</ng-container>
+				<ng-template #withoutGamesTpt>
+					<ion-card>
+						<ion-card-content>
+							<div class="d-flex align-items-center">
+								<i class="fas fa-sad-tear fa-2x ion-margin-end"></i>
+								{{ 'GENERIC.MESSAGE.NO_ITEMS_FOUND' | translate}}
+							</div>
+						</ion-card-content>
+					</ion-card>
+				</ng-template>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+
+	<!-- fab placed to the bottom and start and on the bottom edge of the content overlapping footer with a list to the right -->
+	<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+		<ion-fab-button (click)="delete()" color="danger">
+			<ion-icon name="trash"></ion-icon>
+		</ion-fab-button>
+	</ion-fab>
+</ion-content>

@@ -1,0 +1,30 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-title>{{ 'GAMES.TITLES.NEW_GAME' | translate }}</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<ion-slides #slides mode="md" pager="md" scrollbar="md" style="height: 100%;">
+		<ion-slide *ngIf="modes.length > 1">
+			<div>
+				<h2>{{ 'GAMES.LABELS.CHOOSE_GAME_MODE' | translate }}</h2>
+				<ion-button *ngFor="let item of modes" (click)="form.get('modeCode').patchValue(item.code); next()"
+					shape="round" [color]="form.get('modeCode').value === item.code ? 'secondary' : 'light'">
+					{{ item.name }}
+				</ion-button>
+			</div>
+		</ion-slide>
+		<ion-slide>
+			<div>
+				<h2>{{ 'GAMES.LABELS.CHOOSE_NUMBER_OF_ROUNDS' | translate }}</h2>
+				<ion-button class="ion-margin" *ngFor="let item of availableNumberOfRounds"
+					(click)="form.get('numberOfRounds').patchValue(item); dismiss()" shape="round"
+					[color]="form.get('numberOfRounds').value === item ? 'secondary' : 'light'">
+					{{ item }}
+				</ion-button>
+			</div>
+		</ion-slide>
+
+	</ion-slides>
+</ion-content>

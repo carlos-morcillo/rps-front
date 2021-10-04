@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HomePage } from './home.page';
-import { HomePageRoutingModule } from './home-routing.module';
+import { GameWizardPageRoutingModule } from './game-wizard-routing.module';
+import { GameWizardPage } from './game-wizard.page';
 import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
@@ -11,10 +11,9 @@ import { TranslateModule } from '@ngx-translate/core';
 		CommonModule,
 		FormsModule,
 		IonicModule,
-		ReactiveFormsModule,
-		HomePageRoutingModule,
+		GameWizardPageRoutingModule,
 		TranslateModule.forChild()
 	],
-	declarations: [HomePage]
+	declarations: [GameWizardPage]
 })
-export class HomePageModule { }
+export class GameWizardPageModule { }

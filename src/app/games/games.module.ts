@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HomePage } from './home.page';
-import { HomePageRoutingModule } from './home-routing.module';
+import { GamesPageRoutingModule } from './games-routing.module';
+import { GamesPage } from './games.page';
+import { MomentModule } from 'ngx-moment';
 import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
@@ -11,10 +12,10 @@ import { TranslateModule } from '@ngx-translate/core';
 		CommonModule,
 		FormsModule,
 		IonicModule,
-		ReactiveFormsModule,
-		HomePageRoutingModule,
+		GamesPageRoutingModule,
+		MomentModule,
 		TranslateModule.forChild()
 	],
-	declarations: [HomePage]
+	declarations: [GamesPage]
 })
-export class HomePageModule { }
+export class GamesPageModule { }

@@ -1,0 +1,128 @@
+<ion-header [translucent]="true">
+	<ion-toolbar color="primary">
+		<ion-buttons slot="start">
+			<ion-back-button defaultHref="/"></ion-back-button>
+		</ion-buttons>
+		<!-- <ion-title>GAME #XXXXXX</ion-title> -->
+		<ion-badge color="secondary" slot="end" class="ion-margin-end">
+			{{ 'GAMES.TITLES.ROUND_X_OF_Y' | translate : {roundNumber: game?.roundNumber, total: game?.numberOfRounds} }}
+		</ion-badge>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="primary">
+	<ng-container *ngIf="game?.resultCode; else inProgressTpt">
+		<ion-toolbar>
+			<ion-title class="ion-text-center">
+				{{ 'GAMES.MESSAGES.YOU_' + game.resultCode + '_THE_GAME!' | translate }}
+			</ion-title>
+		</ion-toolbar>
+		<ion-grid>
+			<ion-row>
+				<ion-col size-md="4" offset-md="4">
+					<ion-card *ngFor="let round of game.rounds; let i=index;">
+						<ion-card-header>
+							<ion-card-subtitle>
+								{{ 'GAMES.TITLES.ROUND_X' | translate : {roundNumber: i + 1} }}
+							</ion-card-subtitle>
+							<ion-card-title>{{ 'GAMES.RESULTS.' + round.resultCode | translate }}
+							</ion-card-title>
+						</ion-card-header>
+						<ion-card-content>
+							<div class="d-flex justify-content-around align-items-center">
+								<i class="far fa-2x" [ngClass]="'far fa-hand-' + round.userActionCode | lowercase"
+									slot="start"></i>
+								<ion-chip color="tertiary">
+									<ion-label>VS</ion-label>
+								</ion-chip>
+								<i class="far fa-2x" [ngClass]="'far fa-hand-' + round.machineActionCode | lowercase"
+									slot="end"></i>
+							</div>
+						</ion-card-content>
+					</ion-card>
+				</ion-col>
+			</ion-row>
+		</ion-grid>
+	</ng-container>
+	<ng-template #inProgressTpt>
+		<div id="gameContainer" class="d-flex flex-column justify-content-around h-100">
+			<div>
+				<div class="d-flex justify-content-start ion-padding">
+					<ion-chip color="secondary">
+						<i class="fas fa-robot ion-margin-end"></i>
+						<ion-label>{{ 'GAMES.LABELS.MACHINE' | translate }}</ion-label>
+					</ion-chip>
+				</div>
+				<div class="flex-grown-1 ion-text-center">
+					<!-- <flip [active]="round">
+						<ng-template flipFront>
+							<button class="action-button user_selection">
+								<i class="far fa-question"></i>
+							</button>
+						</ng-template>
+						<ng-template flipFront>
+							<button class="action-button user_selection">
+								<i class="fab fa-500px"></i>
+							</button>
+						</ng-template>
+
+					</flip> -->
+					<button class="action-button user_selection">
+						<i class="fas"
+							[ngClass]="round ? ('fa-hand-' + round.machineActionCode | lowercase) : 'fa-question'"></i>
+					</button>
+				</div>
+			</div>
+			<div>
+				<div class="d-flex justify-content-end ion-padding">
+					<ion-chip color="secondary">
+						<i class="fas fa-user ion-margin-end"></i>
+						<ion-label>{{ 'GAMES.LABELS.USER' | translate }}</ion-label>
+					</ion-chip>
+				</div>
+				<div class="d-flex flex-column h-100 align-items-center">
+
+					<div class="flex-grown-1">
+						<button class="action-button user_selection">
+							<i class="fas"
+								[ngClass]="round ? ('fa-hand-' + round.userActionCode | lowercase) : 'fa-question'"></i>
+						</button>
+					</div>
+					<div class="d-flex flex-wrap justify-content-center ion-margin-top">
+						<div class="ion-margin-horizontal" *ngFor="let action of actions">
+							<div class="d-flex flex-column ion-text-center">
+								<button class="action-button" (click)="play(action)">
+									<div class="d-flex flex-column">
+										<i [ngClass]="action.image"></i>
+									</div>
+								</button>
+								<span>{{ 'GAMES.ACTIONS.' + (action.code | uppercase) | translate | titlecase }}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</ng-template>
+</ion-content>
+<amazing-alert *ngIf="round">
+	<h3 class="text-shadow">{{ 'GAMES.MESSAGES.YOU_' + round.resultCode + '_THE_ROUND!' | translate }}</h3>
+	<!-- <div class="d-flex justify-content-end ion-margin-top">
+		<ion-button color="light" class="ion-margin-end">
+			{{ 'GAMES.BUTTONS.CONTINUE' | translate }}
+		</ion-button>
+	</div> -->
+</amazing-alert>
+
+<amazing-alert *ngIf="showGameResult">
+	<h2 class="text-shadow">{{ 'GAMES.MESSAGES.YOU_' + game.resultCode + '_THE_GAME!' | translate }}</h2>
+	<div class="d-flex justify-content-end ion-margin-top">
+		<ion-button (click)="showSummary()" color="light" class="ion-margin-end">
+			{{ 'GAMES.BUTTONS.SHOW_SUMMARY' | translate }}
+		</ion-button>
+		<ion-button fill="outline" color="light" [routerLink]="['/']">
+			{{ 'GAMES.BUTTONS.BACK_TO_HOME' | translate }}
+		</ion-button>
+	</div>
+</amazing-alert>

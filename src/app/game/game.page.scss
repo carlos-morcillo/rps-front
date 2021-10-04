@@ -1,0 +1,34 @@
+#gameContainer {
+	height: calc(100vh - var(--min-height));
+}
+.action-button {
+	font-size: 3em;
+	border-radius: 50%;
+	width: 80px;
+	height: 80px;
+	margin: 0.5rem;
+	background: white;
+	color: var(--ion-color-secondary);
+}
+
+.action-button.user_selection {
+	font-size: 6em;
+	border-radius: 50%;
+	width: 128px;
+	height: 128px;
+}
+
+@media (max-width: 576px) {
+	.action-button {
+		font-size: 2em;
+		width: 48px;
+		height: 48px;
+		margin: 0.32rem;
+		&.user_selection {
+			font-size: 4em;
+			border-radius: 50%;
+			width: 96px;
+			height: 96px;
+		}
+	}
+}
