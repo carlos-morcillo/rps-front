@@ -22,7 +22,7 @@ export class GamePage implements OnInit {
 
 	id: string;
 	game: Game;
-	states: State[] = this._gamesSvc.settings.states;
+	states: State[];
 	mode: Mode;
 	actions: Action[];
 	round: Partial<Round>;
@@ -89,19 +89,31 @@ export class GamePage implements OnInit {
 
 	async ngOnInit() {
 		this._activatedRoute.params.subscribe(async (params) => {
-			this.id = params['id'] ?? null;
-			try {
-				this.game = await this._gamesSvc.find(this.id).toPromise();
-				this.mode = this._gamesSvc.settings.modes.find(o => o.code === this.game.modeCode);
-				this.actions = this._gamesSvc.settings.actions.filter(o => this.mode.allowedActionCodes.indexOf(o.code) > -1);
-				if (!this.game.resultCode) {
-					this.roundSct = this.round$.subscribe();
-					this.machineActionSbj.next();
-				}
-			} catch (error) {
-				this._router.navigate(['/']);
-			}
+			this.fetchAndConfigureGame(params['id'] ?? null);
 		});
+	}
+
+	/**
+	 * Encuentra y configura los parámetros del juego
+	 *
+	 * @param {string} id
+	 * @memberof GamePage
+	 */
+	async fetchAndConfigureGame(id: string) {
+		this.id = id;
+		try {
+			this.game = await this._gamesSvc.find(this.id).toPromise();
+
+			this.states = this._gamesSvc.settings.states;
+			this.mode = this._gamesSvc.settings.modes.find(o => o.code === this.game.modeCode);
+			this.actions = this._gamesSvc.settings.actions.filter(o => this.mode.allowedActionCodes.indexOf(o.code) > -1);
+			if (!this.game.resultCode) {
+				this.roundSct = this.round$.subscribe();
+				this.machineActionSbj.next();
+			}
+		} catch (error) {
+			this._router.navigate(['/']);
+		}
 	}
 
 	play(action: Action) {
