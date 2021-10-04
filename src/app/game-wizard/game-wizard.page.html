@@ -18,13 +18,13 @@
 		<ion-slide>
 			<div>
 				<h2>{{ 'GAMES.LABELS.CHOOSE_NUMBER_OF_ROUNDS' | translate }}</h2>
-				<ion-button class="ion-margin" *ngFor="let item of availableNumberOfRounds" (click)="dismiss(item)"
-					shape="round" [color]="form.get('numberOfRounds').value === item ? 'secondary' : 'light'">
+				<ion-button class="ion-margin" *ngFor="let item of availableNumberOfRounds"
+					(click)="form.get('numberOfRounds').patchValue(item); dismiss()" shape="round"
+					[color]="form.get('numberOfRounds').value === item ? 'secondary' : 'light'">
 					{{ item }}
 				</ion-button>
 			</div>
 		</ion-slide>
 
 	</ion-slides>
-	<pre>{{form.value | json}}</pre>
 </ion-content>

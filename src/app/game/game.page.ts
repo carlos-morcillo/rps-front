@@ -23,8 +23,8 @@ export class GamePage implements OnInit {
 	id: string;
 	game: Game;
 	states: State[] = this._gamesSvc.settings.states;
-	mode: Mode = this._gamesSvc.settings.modes[0];
-	actions: Action[] = this._gamesSvc.settings.actions.filter(o => this.mode.allowedActionCodes.indexOf(o.code) > -1);
+	mode: Mode;
+	actions: Action[];
 	round: Partial<Round>;
 	showGameResult: boolean = false;
 	showActionsChoosed: boolean = false;
@@ -92,7 +92,8 @@ export class GamePage implements OnInit {
 			this.id = params['id'] ?? null;
 			try {
 				this.game = await this._gamesSvc.find(this.id).toPromise();
-
+				this.mode = this._gamesSvc.settings.modes.find(o => o.code === this.game.modeCode);
+				this.actions = this._gamesSvc.settings.actions.filter(o => this.mode.allowedActionCodes.indexOf(o.code) > -1);
 				if (!this.game.resultCode) {
 					this.roundSct = this.round$.subscribe();
 					this.machineActionSbj.next();

@@ -44,8 +44,8 @@ export class GameWizardPage implements OnInit, AfterViewInit {
 		this.slides.lockSwipeToNext(true);
 	}
 
-	dismiss(numberOfRounds: number) {
-		this._modalCtrl.dismiss(numberOfRounds);
+	dismiss() {
+		this._modalCtrl.dismiss(this.form.value);
 	}
 
 }

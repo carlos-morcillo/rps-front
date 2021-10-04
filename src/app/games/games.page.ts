@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { merge, Subject, timer } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -24,8 +25,12 @@ export class GamesPage {
 	);
 
 	constructor(
+		private _translateSvc: TranslateService,
 		private _gamesSvc: GamesService
-	) { }
+	) {
+		console.log(this._translateSvc.defaultLang);
+		console.log(this._translateSvc.currentLang);
+	}
 
 	/**
 	 * Elimina el historial de juegos o un juego en particular
@@ -33,7 +38,7 @@ export class GamesPage {
 	 * @memberof GamesPage
 	 */
 	async delete(game?: Game) {
-		if (confirm(game ? 'DELETE_GAME?' : 'CLEAR_HISTORY?')) {
+		if (confirm(this._translateSvc.instant(game ? 'GAMES.MESSAGES.DELETE_GAME?' : 'GAMES.MESSAGES.CLEAR_HISTORY?'))) {
 			await this._gamesSvc.delete(game?.id ?? null);
 			this.refresh$.next();
 		}

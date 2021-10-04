@@ -1,0 +1,48 @@
+{
+	"SELF": {
+		"TITLE": "Rock, paper, scissors!"
+	},
+    "BUTTONS": {
+		"PLAY": "Play",
+		"HISTORY": "History"
+	},
+	"GAMES": {
+		"TITLES": {
+			"NEW_GAME": "New game",
+			"ROUND_X_OF_Y": "Round {{ roundNumber }} of {{ total }}",
+			"ROUND_X": "Round {{ roundNumber }}"
+		},
+		"LABELS": {
+			"CHOOSE_GAME_MODE": "Choose the game of the mode",
+			"CHOOSE_NUMBER_OF_ROUNDS": "Choose the number of rounds",
+			"MACHINE": "Machine",
+			"USER": "User"
+		},
+		"BUTTONS": {
+			"CONTINUE": "Continue",
+			"SHOW_SUMMARY": "View summary",
+			"BACK_TO_HOME": "Back to home"
+		},
+		"MESSAGES": {
+			"YOU_VICTORY_THE_ROUND!": "You won the round!",
+			"YOU_TIE_THE_ROUND!": "You tied the round!",
+			"YOU_DEFEAT_THE_ROUND!": "You lost the round!",
+			"YOU_VICTORY_THE_GAME!": "You won!",
+			"YOU_TIE_THE_GAME!": "You tied!",
+			"YOU_DEFEAT_THE_GAME!": "You lost!",
+			"MACHINE_HAS_CHOOSEN": "The machine has chosen"
+		},
+		"ACTIONS": {
+			"ROCK": "rock",
+			"PAPER": "paper",
+			"SCISSORS": "scissors",
+			"LIZARD": "lizard",
+			"SPOCK": "spock"
+		},
+		"RESULTS": {
+			"VICTORY": "victory",
+			"TIE": "tie",
+			"DEFEAT": "defeat"
+		}
+	}
+}

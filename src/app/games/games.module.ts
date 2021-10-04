@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { GamesPageRoutingModule } from './games-routing.module';
 import { GamesPage } from './games.page';
 import { MomentModule } from 'ngx-moment';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
 	imports: [
@@ -12,7 +13,8 @@ import { MomentModule } from 'ngx-moment';
 		FormsModule,
 		IonicModule,
 		GamesPageRoutingModule,
-		MomentModule
+		MomentModule,
+		TranslateModule.forChild()
 	],
 	declarations: [GamesPage]
 })

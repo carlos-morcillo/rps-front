@@ -45,7 +45,7 @@
 		</ion-grid>
 	</ng-container>
 	<ng-template #inProgressTpt>
-		<div id="gameContainer" class="d-flex flex-column justify-content-around">
+		<div id="gameContainer" class="d-flex flex-column justify-content-around h-100">
 			<div>
 				<div class="d-flex justify-content-start ion-padding">
 					<ion-chip color="secondary">
@@ -68,7 +68,7 @@
 
 					</flip> -->
 					<button class="action-button user_selection">
-						<i class="far"
+						<i class="fas"
 							[ngClass]="round ? ('fa-hand-' + round.machineActionCode | lowercase) : 'fa-question'"></i>
 					</button>
 				</div>
@@ -84,12 +84,12 @@
 
 					<div class="flex-grown-1">
 						<button class="action-button user_selection">
-							<i class="far"
+							<i class="fas"
 								[ngClass]="round ? ('fa-hand-' + round.userActionCode | lowercase) : 'fa-question'"></i>
 						</button>
 					</div>
-					<div class="d-flex">
-						<div class="ion-margin" *ngFor="let action of actions">
+					<div class="d-flex flex-wrap justify-content-center ion-margin-top">
+						<div class="ion-margin-horizontal" *ngFor="let action of actions">
 							<div class="d-flex flex-column ion-text-center">
 								<button class="action-button" (click)="play(action)">
 									<div class="d-flex flex-column">

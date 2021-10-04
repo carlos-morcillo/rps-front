@@ -11,11 +11,15 @@
 					</div>
 					<div>
 						<ion-button (click)="newGame()" expand="block" color="secondary">
-							{{ 'BUTTONS.PLAY' | translate }}
+							{{ 'GENERIC.BUTTONS.PLAY' | translate }}
 						</ion-button>
 						<ion-button [routerLink]="['/games']" routerLinkActive="router-link-active" expand="block"
 							color="light" fill="outline">
-							{{ 'BUTTONS.HISTORY' | translate }}
+							{{ 'GENERIC.BUTTONS.HISTORY' | translate }}
+						</ion-button>
+						<ion-button (click)="selectLanguage()" class="ion-margin-top" expand="block" fill="outline"
+							color="light">
+							{{ 'GENERIC.LABELS.LANGUAGE' | translate }}: {{ 'LANGUAGES.' + language.name | translate }}
 						</ion-button>
 					</div>
 				</div>

@@ -4,7 +4,7 @@
 			<ion-back-button defaultHref="/"></ion-back-button>
 		</ion-buttons>
 		<ion-title>
-			HISTORY
+			{{ 'GAMES.TITLES.HISTORY' | translate }}
 		</ion-title>
 	</ion-toolbar>
 </ion-header>
@@ -17,7 +17,7 @@
 	<ion-header collapse="condense">
 		<ion-toolbar color="primary">
 			<ion-title size="large">
-				HISTORY
+				{{ 'GAMES.TITLES.HISTORY' | translate }}
 			</ion-title>
 		</ion-toolbar>
 	</ion-header>
@@ -49,17 +49,17 @@
 								</div>
 								<ng-container [ngSwitch]="game.resultCode">
 									<ion-chip color="success" *ngSwitchCase="'VICTORY'">
-										<ion-label> {{ game.resultCode }} </ion-label>
+										<ion-label> {{'GAMES.STATES.' + game.resultCode | translate }} </ion-label>
 									</ion-chip>
 									<ion-chip color="danger" *ngSwitchCase="'DEFEAT'">
-										<ion-label> {{ game.resultCode }} </ion-label>
+										<ion-label> {{'GAMES.STATES.' + game.resultCode | translate }} </ion-label>
 									</ion-chip>
 									<ion-chip color="warning" *ngSwitchCase="'TIE'">
-										<ion-label> {{ game.resultCode }} </ion-label>
+										<ion-label> {{'GAMES.STATES.' + game.resultCode | translate }} </ion-label>
 									</ion-chip>
 
 									<ion-chip color="light" *ngSwitchDefault>
-										<ion-label>IN_PROGRESS</ion-label>
+										<ion-label>{{'GAMES.STATES.IN_PROGRESS' | translate }}</ion-label>
 									</ion-chip>
 								</ng-container>
 
@@ -72,7 +72,7 @@
 						<ion-card-content>
 							<div class="d-flex align-items-center">
 								<i class="fas fa-sad-tear fa-2x ion-margin-end"></i>
-								NO_ITEMS_FOUND
+								{{ 'GENERIC.MESSAGE.NO_ITEMS_FOUND' | translate}}
 							</div>
 						</ion-card-content>
 					</ion-card>

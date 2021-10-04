@@ -2,15 +2,30 @@
 	"SELF": {
 		"TITLE": "Piedra, papel, tijeras!"
 	},
-    "BUTTONS": {
-		"PLAY": "Jugar",
-		"HISTORY": "Histórico de partidas"
+	"GENERIC": {
+		"LABELS": {
+			"LANGUAGE": "Idioma"
+		},
+		"BUTTONS": {
+			"PLAY": "Jugar",
+			"HISTORY": "Histórico de partidas",
+			"OK": "Aceptar",
+			"CANCEL": "Cancelar"
+		},
+		"MESSAGES": {
+			"NO_ITEMS_FOUND": "No se han encontrado elementos"
+		}
+	},
+	"LANGUAGES": {
+		"SPANISH": "Castellano",
+		"ENGLISH": "Inglés"
 	},
 	"GAMES": {
 		"TITLES": {
 			"NEW_GAME": "Nueva partida",
 			"ROUND_X_OF_Y": "Ronda {{ roundNumber }} de {{ total }}",
-			"ROUND_X": "Ronda {{ roundNumber }}"
+			"ROUND_X": "Ronda {{ roundNumber }}",
+			"HISTORY": "Histórico"
 		},
 		"LABELS": {
 			"CHOOSE_GAME_MODE": "Elige el modo de juego",
@@ -30,7 +45,9 @@
 			"YOU_VICTORY_THE_GAME!": "Has ganado!",
 			"YOU_TIE_THE_GAME!": "Has empatado!",
 			"YOU_DEFEAT_THE_GAME!": "Has perdido!",
-			"MACHINE_HAS_CHOOSEN": "La máquina ya ha elegido"
+			"MACHINE_HAS_CHOOSEN": "La máquina ya ha elegido",
+			"CLEAR_HISTORY?": "¿Desea borra el histórico de juegos?",
+			"DELETE_GAME?": "¿Desea borrar el juego?"
 		},
 		"ACTIONS": {
 			"ROCK": "piedra",
@@ -38,6 +55,12 @@
 			"SCISSORS": "tijeras",
 			"LIZARD": "lagarto",
 			"SPOCK": "spock"
+		},
+		"STATES": {
+			"IN_PROGRESS": "En progreso",
+			"DEFEAT": "Perdido",
+			"TIE": "Empatado",
+			"VICTORY": "Ganado"
 		},
 		"RESULTS": {
 			"VICTORY": "Victoria",

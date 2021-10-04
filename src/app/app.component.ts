@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import * as moment from 'moment';
+
 
 @Component({
 	selector: 'app-root',
@@ -11,6 +13,7 @@ export class AppComponent {
 		private _translateSvc: TranslateService
 	) {
 		this._translateSvc.setDefaultLang('es');
-		this._translateSvc.use('en');
+		this._translateSvc.use('es');
+		moment.locale('es')
 	}
 }
